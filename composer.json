@@ -15,5 +15,6 @@
   ],
   "require": {
     "guzzlehttp/guzzle": "^6.5"
-  }
+  },
+  "license": "MIT"
 }
