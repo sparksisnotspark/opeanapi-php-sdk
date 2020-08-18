@@ -1,14 +1,22 @@
 <?php
+
 namespace Duomai\CpsClient;
 
+use Duomai\CpsClient\Endpoints\AlimamaImgSearch;
 use Duomai\CpsClient\Endpoints\ChanLink;
 use Duomai\CpsClient\Endpoints\DecryptLink;
 use Duomai\CpsClient\Endpoints\EncryptLink;
+use Duomai\CpsClient\Endpoints\OrderDetail;
+use Duomai\CpsClient\Endpoints\OrderList;
+use Duomai\CpsClient\Endpoints\PlanDetail;
+use Duomai\CpsClient\Endpoints\PlanList;
 use Duomai\CpsClient\Endpoints\ProductDetail;
 use Duomai\CpsClient\Endpoints\Products;
+use Duomai\CpsClient\Endpoints\RequestParams;
 use Duomai\CpsClient\Endpoints\ShortLink;
 use Duomai\CpsClient\Exceptions\ServiceException;
 use Duomai\CpsClient\Network\Http\Client as NetClient;
+use Duomai\CpsClient\Network\Http\OpenClient as OpenClient;
 use Duomai\CpsClient\Network\Interfaces\ClientInterface;
 use Duomai\CpsClient\Network\Interfaces\EndpointInterface;
 
@@ -27,7 +35,7 @@ class Client
 
     /**
      * @param $config
-     * @return NetClient
+     * @return ClientInterface
      */
     private function getHttpClient($config)
     {
@@ -39,7 +47,7 @@ class Client
      * @param $host
      * @param float $timeout
      * @param null $auth
-     * @return NetClient|null
+     * @return ClientInterface
      */
     protected function getClient($rpc, $host, $timeout = 5.0, $auth = null)
     {
@@ -62,16 +70,16 @@ class Client
      */
     public function __construct($config)
     {
-        if(empty($config["rpc"])){
+        if (empty($config["rpc"])) {
             $config["rpc"] = "http";
         }
-        if(empty($config["auth"])){
+        if (empty($config["auth"])) {
             throw new ServiceException("service config auth is empty");
         }
         if (empty($config["host"]) || empty($config["rpc"])) {
             throw new ServiceException("service config host is empty");
         }
-        $this->client = $this->GetClient($config["rpc"], $config["host"],30, $config["auth"]);
+        $this->client = $this->GetClient($config["rpc"], $config["host"], 30, $config["auth"]);
         if (empty($this->client)) {
             throw new ServiceException("client init error");
         }
@@ -175,6 +183,90 @@ class Client
     }
 
     /**
+     * 拍立淘
+     * @param string $imgBase64 图片数据
+     * @param string $imgKey 图片key
+     * @param string $cat
+     * @return array
+     * @throws ServiceException
+     */
+    public function AlimamImgSearch($imgBase64, $imgKey = null, $cat = null)
+    {
+        $endpoint = new AlimamaImgSearch($imgBase64, $imgKey, $cat);
+        return $this->doService($endpoint);
+    }
+
+    /**
+     * 订单列表
+     * @param int $stime 开始时间戳
+     * @param int $etime 结束时间戳
+     * @param int $page 页码
+     * @param int $pageSize 分页大小
+     * @param string $orderField
+     * @param array $query 可选参数 ["site_id"=>"site_id","ads_id"=>"ads_id","euid"=>"euid","status"=>"status"]
+     * @return array
+     * @throws ServiceException
+     */
+    public function OrderList($stime, $etime, $page = 1, $pageSize = 20, $orderField = "update_time", $query = [])
+    {
+        $endpoint = new OrderList($stime, $etime, $page, $pageSize, $orderField, $query);
+        return $this->doService($endpoint);
+    }
+
+    /**
+     * 订单详情
+     * @param $adsId
+     * @param $orderSn
+     * @return array
+     * @throws ServiceException
+     */
+    public function OrderDetail($adsId, $orderSn)
+    {
+        $endpoint = new OrderDetail($adsId, $orderSn);
+        return $this->doService($endpoint);
+    }
+
+    /**
+     * 计划详情
+     * @param $adsId
+     * @return array
+     * @throws ServiceException
+     */
+    public function PlanDetail($adsId)
+    {
+        $endpoint = new PlanDetail($adsId);
+        return $this->doService($endpoint);
+    }
+
+    /**
+     * 计划列表
+     * @param string $query
+     * @param int $isApply
+     * @param int $page
+     * @param int $pageSize
+     * @return array
+     * @throws ServiceException
+     */
+    public function PlanList($query = "", $isApply = 0, $page = 1, $pageSize = 20)
+    {
+        $endpoint = new PlanList($query, $isApply, $page, $pageSize);
+        return $this->doService($endpoint);
+    }
+
+    /**
+     * 自定义请求
+     * @param $service
+     * @param $params
+     * @return array
+     * @throws ServiceException
+     */
+    public function Request($service, $params)
+    {
+        $endpoint = new RequestParams($service, $params);
+        return $this->doService($endpoint);
+    }
+
+    /**
      * 加密链接
      * @param $url
      * @return array
@@ -193,7 +285,7 @@ class Client
      * @return array
      * @throws ServiceException
      */
-    public function productList($queryParams, $platform=Products::PLATFORM_JDUnion)
+    public function productList($queryParams, $platform = Products::PLATFORM_JDUnion)
     {
         $endpoint = new Products($queryParams, $platform);
         return $this->doService($endpoint);
@@ -206,7 +298,7 @@ class Client
      * @return array
      * @throws ServiceException
      */
-    public function productDetail($itemId, $platform=Products::PLATFORM_JDUnion)
+    public function productDetail($itemId, $platform = Products::PLATFORM_JDUnion)
     {
         $endpoint = new ProductDetail($itemId, $platform);
         return $this->doService($endpoint);

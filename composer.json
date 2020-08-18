@@ -1,7 +1,7 @@
 {
   "name": "duomai/cps-client",
   "description": "cps开放服务api客户端",
-  "version" : "0.0.1",
+  "version" : "1.0.0",
   "autoload" : {
     "psr-4": {
       "Duomai\\CpsClient\\": "src/"
@@ -14,7 +14,8 @@
     }
   ],
   "require": {
-    "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^6.5",
+    "ext-json": "*"
   },
   "license": "MIT"
 }

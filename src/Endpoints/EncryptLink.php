@@ -13,6 +13,7 @@ use Duomai\CpsClient\Network\EndpointBase;
  */
 class EncryptLink extends EndpointBase
 {
+
     /**
      * EncryptLink constructor.
      * @param $url
@@ -30,16 +31,7 @@ class EncryptLink extends EndpointBase
 
     public function Service()
     {
-        return "base.cpslink/v1/links/crypt";
+        return "cps-mesh.cpslink.links.crypt.post";
     }
 
-    public function Method()
-    {
-        return "Post";
-    }
-
-    public function getResult()
-    {
-        return $this->data["data"];
-    }
 }

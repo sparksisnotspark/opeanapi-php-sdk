@@ -43,12 +43,7 @@ class ChanLink extends EndpointBase
 
     public function Service()
     {
-        return "base.cpslink/v1/links";
-    }
-
-    public function Method()
-    {
-        return "Post";
+        return "cps-mesh.cpslink.links.post";
     }
 
     public function getResult()

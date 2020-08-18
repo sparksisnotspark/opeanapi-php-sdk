@@ -46,6 +46,11 @@ abstract class EndpointBase implements EndpointInterface
         return $this->params;
     }
 
+    public function Method()
+    {
+        return "POST";
+    }
+
     public function SetHttpResult(ResponseInterface $response)
     {
         $body = $response->getBody()->getContents();

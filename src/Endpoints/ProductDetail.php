@@ -17,7 +17,7 @@ class ProductDetail extends EndpointBase
 {
     private $platform = Products::PLATFORM_JDUnion;
 
-    private $itemId;
+    protected $params=[];
 
     /**
      * ProductDetail constructor.
@@ -31,17 +31,13 @@ class ProductDetail extends EndpointBase
             throw new ServiceException("商品id不能为空");
         }
         $this->platform = $platform;
-        $this->itemId = $itemId;
+        $this->params["id"] = $itemId;
     }
 
-    public function Method()
-    {
-        return "GET";
-    }
 
     public function Service()
     {
-        return "base.cpslink/v1/{$this->platform}/products/{$this->itemId}";
+        return "cps-mesh.cpslink.$this->platform.products.detail";
     }
 
     public function getResult()

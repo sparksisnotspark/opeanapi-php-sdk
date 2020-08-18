@@ -15,6 +15,7 @@ use Duomai\CpsClient\Network\EndpointBase;
 class Products extends EndpointBase
 {
     const PLATFORM_YOUZAN = "youzan";
+    const ALIMAMA_YOUZAN = "alimama";
     const PLATFORM_PDD = "pdd";
     const PLATFORM_KAOLA = "kaola";
     const PLATFORM_VIP = "vip";
@@ -30,13 +31,8 @@ class Products extends EndpointBase
         $this->params = $query;
     }
 
-    public function Method()
-    {
-        return "GET";
-    }
-
     public function Service()
     {
-        return "base.cpslink/v1/{$this->platform}/products";
+        return "cps-mesh.cpslink.b1688.{$this->platform}.products.get";
     }
 }

@@ -12,16 +12,22 @@ use Duomai\CpsClient\Network\EndpointBase;
  */
 class ShortLink extends EndpointBase
 {
-    public function __construct($url)
+    /**
+     * ShortLink constructor.
+     * @param string $url 长链接
+     * @param int $type 0 多麦默认链接 1 多麦微博防拼搏 2 url.cn短链
+     */
+    public function __construct($url, $type = 0)
     {
         $this->params = [
             "url" => $url,
+            "type" => $type,
         ];
     }
 
     public function Service()
     {
-        return "base.cpslink/v1/links/short";
+        return "cps-mesh.cpslink.links.short.post";
     }
 
     public function Method()

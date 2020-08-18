@@ -1,41 +1,43 @@
 <?php
 
+
 namespace Duomai\CpsClient\Endpoints;
+
 
 use Duomai\CpsClient\Exceptions\ServiceException;
 use Duomai\CpsClient\Network\EndpointBase;
 
 /**
- * 链接解密
+ * Class OrderDetail
  * @author real<real@goldenname.com>
  * @since 1.0
  * @package Duomai\CpsClient\Endpoints
  */
-class DecryptLink extends EndpointBase
+class OrderDetail extends EndpointBase
 {
 
     /**
-     * DecryptLink constructor.
-     * @param $url
+     * EncryptLink constructor.
+     * @param $adsId
+     * @param $orderSn
      * @throws ServiceException
      */
-    public function __construct($url)
+    public function __construct($adsId, $orderSn)
     {
-        if(empty($url)){
-            throw new ServiceException("url参数不能为空");
-        }
         $this->params = [
-            "url" => $url,
+            "ads_id" => $adsId,
+            "order_sn" => $orderSn,
         ];
     }
 
     public function Service()
     {
-        return "cps-mesh.cpslink.links.crypt.get";
+        return "cps-mesh.open.orders.detail.get";
     }
 
     public function getResult()
     {
         return $this->data["data"];
     }
+
 }
