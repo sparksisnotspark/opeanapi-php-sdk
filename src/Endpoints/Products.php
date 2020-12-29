@@ -33,6 +33,6 @@ class Products extends EndpointBase
 
     public function Service()
     {
-        return "cps-mesh.cpslink.b1688.{$this->platform}.products.get";
+        return "cps-mesh.cpslink.{$this->platform}.products.get";
     }
 }
