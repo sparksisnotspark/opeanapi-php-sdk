@@ -7,7 +7,7 @@ namespace Duomai\CpsClient\Endpoints;
 use Duomai\CpsClient\Network\EndpointBase;
 
 /**
- * 商品列表
+ * 商品列表 
  * @author real<real@goldenname.com>
  * @since 1.0
  * @package Duomai\CpsClient\Endpoints
