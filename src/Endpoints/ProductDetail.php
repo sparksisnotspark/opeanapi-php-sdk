@@ -37,7 +37,7 @@ class ProductDetail extends EndpointBase
 
     public function Service()
     {
-        return "cps-mesh.cpslink.$this->platform.products.get";
+        return "cps-mesh.cpslink.$this->platform.products.detail";
     }
 
     public function getResult()
