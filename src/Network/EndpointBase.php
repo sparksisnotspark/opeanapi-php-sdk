@@ -65,7 +65,7 @@ abstract class EndpointBase implements EndpointInterface
         if (empty($this->data["status"])) {
             $this->success = true;
         } else {
-            $this->error = $this->data["message"] ? $this->data["message"] : json_encode($this->data);
+            $this->error = $this->data["message"] ?  ($this->data["message"].($this->data["info"]??"")) : json_encode($this->data);
         }
     }
 }
